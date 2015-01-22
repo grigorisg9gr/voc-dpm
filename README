@@ -1,3 +1,11 @@
+Modification of the DPM voc-release5 for the purpose of building a person specific model. 
+Specifically the code is set to parse the bounding boxes of faces (or objects) as positives and uses as negatives the PASCAL dataset. The paths of positive images, their annotations and the path for pascal can be found in voc_config() which will need to be adapted. The new functions are in the folder code_greg/. 
+
+
+
+
+Original README of voc-release5: 
+
 Information
 ===========
 

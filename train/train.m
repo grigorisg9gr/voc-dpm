@@ -280,7 +280,7 @@ for t = 1:iter
       % Save the intermediate model for debugging / inspection
       model_name = [model.class '_model_' tag '_' ...
                     num2str(t) '_' num2str(tneg)];
-      save([conf.paths.model_dir model_name], 'model');
+%       save([conf.paths.model_dir model_name], 'model');
 
       % Output history of the objective function value on the cache
       cache(tneg,:) = [nl pl rt nl+pl+rt];

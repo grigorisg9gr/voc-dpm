@@ -33,8 +33,10 @@ function conf = voc_config(varargin)
 % Parent directory that everything (model cache, VOCdevkit) is under
 % I recommend making a symlink to your BASE_DIR named 'cachedir'.
 % e.g., cachedir -> /var/tmp/rbg/
-BASE_DIR    = 'cachedir';
-
+BASE_DIR    = 'voc-dpm-path/';
+path_pascal = 'VOCdevkit/VOC2007/ path';
+path_faces  = 'path-positive-faces/'; bb = 'existing-detections/';
+frames = 'frames/'; visualisations = 'visualisations/';  out_bb = 'detections-saved/';
 % PASCAL dataset year to use
 PASCAL_YEAR = '2007';
 
@@ -110,6 +112,14 @@ conf = cv(conf, 'project', PROJECT);
 % Parent directory that everything (model cache, VOCdevkit) is under
 conf = cv(conf, 'paths.base_dir', BASE_DIR);
 
+%grigoris, paths for faces
+conf = cv(conf, 'paths.base_faces_dir', path_faces);
+conf = cv(conf, 'paths.bboxes_dir', [path_faces bb]);
+conf = cv(conf, 'paths.bboxes_out_dir', [path_faces out_bb]); exists_or_mkdir(conf.paths.bboxes_out_dir);
+conf = cv(conf, 'paths.bboxes_im_out_dir', [path_faces visualisations  out_bb]); exists_or_mkdir(conf.paths.bboxes_im_out_dir);
+conf = cv(conf, 'paths.frames_dir', [path_faces frames]);
+conf = cv(conf, 'paths.pascal_im', [path_pascal]);
+
 % Path to this file
 conf = cv(conf, 'paths.self', fullfile(pwd(), [mfilename() '.m']));
 
@@ -135,8 +145,7 @@ exists_or_mkdir(conf.cascade.data_dir);
 conf = cv(conf, 'pascal.year', PASCAL_YEAR);
 
 % Directory with PASCAL VOC development kit and dataset
-conf = cv(conf, 'pascal.dev_kit', [conf.paths.base_dir '/VOC' ...
-                                   conf.pascal.year '/VOCdevkit/']);
+conf = cv(conf, 'pascal.dev_kit', [conf.paths.base_dir '/VOCdevkit/']);
 % For INRIA person                                   
 %conf = cv(conf, 'pascal.dev_kit', [conf.paths.base_dir '/INRIA/VOCdevkit/']);
 

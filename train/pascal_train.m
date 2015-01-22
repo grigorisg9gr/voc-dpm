@@ -1,4 +1,4 @@
-function model = pascal_train(cls, n, note)
+function model = pascal_train(cls, n, multi_person, note)
 % Train a model.
 %   model = pascal_train(cls, n, note)
 %
@@ -30,7 +30,7 @@ function model = pascal_train(cls, n, note)
 seed_rand();
 
 % Default to no note
-if nargin < 3
+if nargin < 4
   note = '';
 end
 
@@ -38,7 +38,9 @@ conf = voc_config();
 cachedir = conf.paths.model_dir;
 
 % Load the training data
-[pos, neg, impos] = pascal_data(cls, conf.pascal.year);
+neg = pascal_data('sheep', conf.pascal.year);
+[pos, impos, dataid] = read_faces(cls, multi_person, length(neg));
+
 
 % Split foreground examples into n groups by aspect ratio
 spos = split(pos, n);

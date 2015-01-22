@@ -35,7 +35,7 @@ if nargin > 2
   boxes = (boxes-1)*scale+1;
 else
   print = false;
-  cwidth = 2;
+  cwidth = 4;
 end
 
 image(im); 
