@@ -61,7 +61,7 @@ neg_large = neg; % use all of the negative images
 % Train one asymmetric root filter for each aspect ratio group
 % using warped positives and random negatives
 try
-  load([cachedir cls '_lrsplit1']);
+  load([cachedir cls '_lrsplit1.mat']);
 catch
   seed_rand();
   for i = 1:n
@@ -74,7 +74,7 @@ catch
                       max_num_examples, fg_overlap, 0, false, ...
                       ['lrsplit1_' num2str(i)]);
   end
-  save([cachedir cls '_lrsplit1'], 'models');
+  save([cachedir cls '_lrsplit1.mat'], 'models');
 end
 
 % Train a mixture of two root filters for each aspect ratio group
@@ -82,7 +82,7 @@ end
 % and correspond to two latent orientations choices
 % Training uses latent positives and hard negatives
 try
-  load([cachedir cls '_lrsplit2']);
+  load([cachedir cls '_lrsplit2.mat']);
 catch
   seed_rand();
   for i = 1:n
@@ -92,26 +92,26 @@ catch
                       max_num_examples, fg_overlap, 0, false, ...
                       ['lrsplit2_' num2str(i)]);
   end
-  save([cachedir cls '_lrsplit2'], 'models');
+  save([cachedir cls '_lrsplit2.mat'], 'models');
 end
 
 % Train a mixture model composed all of aspect ratio groups and 
 % latent orientation choices using latent positives and hard negatives
 try 
-  load([cachedir cls '_mix']);
+  load([cachedir cls '_mix.mat']);
 catch
   seed_rand();
   % Combine separate mixture models into one mixture model
   model = model_merge(models);
   model = train(model, impos, neg_small, false, false, 1, 5, ...
                 max_num_examples, fg_overlap, num_fp, false, 'mix');
-  save([cachedir cls '_mix'], 'model');
+  save([cachedir cls '_mix.mat'], 'model');
 end
 
 % Train a mixture model with 2x resolution parts using latent positives
 % and hard negatives
 try 
-  load([cachedir cls '_parts']);
+  load([cachedir cls '_parts.mat']);
 catch
   seed_rand();
   % Add parts to each mixture component
@@ -137,7 +137,7 @@ catch
   % Finish training by data mining on all of the negative images
   model = train(model, impos, neg_large, false, false, 1, 5, ...
                 max_num_examples, fg_overlap, num_fp, true, 'parts_2');
-  save([cachedir cls '_parts'], 'model');
+  save([cachedir cls '_parts.mat'], 'model');
 end
 
-save([cachedir cls '_final'], 'model');
+save([cachedir cls '_final.mat'], 'model');

@@ -38,7 +38,7 @@ cls = model.class;
 images = [conf.paths.frames_dir cls '/'];
 % run detector in each image
 try
-  load([cachedir cls '_boxes_' testset '_' suffix]);
+  load([cachedir cls '_boxes_' testset '_' suffix '.mat']);
 catch
   img_list = dir([images,'*.png']); 
   num_ids = length(img_list);
@@ -84,7 +84,7 @@ catch
   th = toc(th);
   ds = ds_out;
   bs = bs_out;
-  save([cachedir cls '_boxes_' testset '_' suffix], ...
+  save([cachedir cls '_boxes_' testset '_' suffix '.mat'], ...
        'ds', 'bs', 'th');
   fprintf('Testing took %.4f seconds\n', th);
 end

@@ -13,7 +13,7 @@ path_save_img = [conf.paths.bboxes_im_out_dir '/' cls '/']; unix(['mkdir -p ' pa
 bb_path = [conf.paths.bboxes_out_dir '/' cls '/']; unix(['mkdir -p ' bb_path]);
 parfor i=1:num_ids
 %     im = imread([images img_list(i).name]);
-    fprintf('%s: saving image: %d/%d\n', cls, i, num_ids);
+    tic_toc_print('%s: saving image: %d/%d\n', cls, i, num_ids);
     if ~isempty(ds{1,i})
         max_people = min(size(ds{1,i},1),multi_person);
 %         showboxes(im,ds{1,i}(1:max_people,:));

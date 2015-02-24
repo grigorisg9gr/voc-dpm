@@ -114,10 +114,10 @@ conf = cv(conf, 'paths.base_dir', BASE_DIR);
 
 %grigoris, paths for faces
 conf = cv(conf, 'paths.base_faces_dir', path_faces);
-conf = cv(conf, 'paths.bboxes_dir', [path_faces bb]);
-conf = cv(conf, 'paths.bboxes_out_dir', [path_faces out_bb]); exists_or_mkdir(conf.paths.bboxes_out_dir);
-conf = cv(conf, 'paths.bboxes_im_out_dir', [path_faces visualisations  out_bb]); exists_or_mkdir(conf.paths.bboxes_im_out_dir);
-conf = cv(conf, 'paths.frames_dir', [path_faces frames]);
+conf = cv(conf, 'paths.bboxes_dir', [conf.paths.base_faces_dir bb]);
+conf = cv(conf, 'paths.bboxes_out_dir', [conf.paths.base_faces_dir out_bb]); exists_or_mkdir(conf.paths.bboxes_out_dir);
+conf = cv(conf, 'paths.bboxes_im_out_dir', [conf.paths.base_faces_dir visualisations  out_bb]); exists_or_mkdir(conf.paths.bboxes_im_out_dir);
+conf = cv(conf, 'paths.frames_dir', [conf.paths.base_faces_dir frames]);
 conf = cv(conf, 'paths.pascal_im', [path_pascal]);
 
 % Path to this file
@@ -174,8 +174,10 @@ conf.pascal.VOCopts = get_voc_opts(conf);
 
 % Directory for caching models, intermediate data, and results
 % [was called 'cachedir' in previous releases]
-conf = cv(conf, 'paths.model_dir', [conf.paths.base_dir '/' ...
-                                    conf.project '/' conf.pascal.year '/']);
+% conf = cv(conf, 'paths.model_dir', [conf.paths.base_dir '/' ...
+%                                     conf.project '/' conf.pascal.year '/']);
+conf = cv(conf, 'paths.model_dir', [conf.paths.base_faces_dir '/' ...
+                                    out_bb(1:end-1) '_mat_files/']);
 
 exists_or_mkdir(conf.paths.model_dir);
 

@@ -5,7 +5,7 @@ conf=voc_config();
 cachedir   = conf.paths.model_dir;
 
 try 
-    load([cachedir clip_name '_pos_faces']);
+    load([cachedir clip_name '_pos_faces.mat']);
 catch
     images = [conf.paths.frames_dir clip_name '/'];
     bboxes = [conf.paths.bboxes_dir clip_name '/'];
@@ -17,7 +17,10 @@ catch
     if ~multi_person
         while cnt<= tot_img
             [f_e, bbox] = read_pts_file(bboxes, [img_list(cnt).name(1:end-4) '.pts']);
-            if ~f_e, cnt =cnt + 1; continue; end
+            if ~f_e
+                [f_e, bbox] = read_pts_file(bboxes, [img_list(cnt).name(1:end-4) '_0.pts']);
+                if ~f_e, cnt =cnt + 1; continue; end
+            end
             pos(numpos) = parse_pos(images, img_list(cnt).name, bbox, dataid);
 
             numpos = numpos + 1;
@@ -43,7 +46,7 @@ catch
             cnt =cnt + thres_add;
         end
     end
-    save([cachedir clip_name '_pos_faces'],'pos','impos','dataid');
+    save([cachedir clip_name '_pos_faces.mat'],'pos','impos','dataid');
 end
 end
 
